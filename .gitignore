@@ -1,0 +1,12 @@
+# Ignore build directories
+build/
+.github/
+
+# Editor / OS files
+.vscode/
+.DS_Store
+*.swp
+
+.cache
+
+compile_commands.json

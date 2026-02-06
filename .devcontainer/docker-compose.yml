@@ -1,0 +1,20 @@
+services:
+  dev:
+    image: ghcr.io/starsurgeon/cpp_reflection_blog/cpp_reflection_blog_clang-p2996:latest
+    init: true
+
+    # Let Dev Containers own the workspace mount behavior.
+    # If you prefer explicit mounts, see the optional section below.
+
+    # Recommended for devcontainers
+    #working_dir: /workspaces/${LOCAL_WORKSPACE_FOLDER_BASENAME:-workspace}
+
+    # Optional: keep the container running even if the image has no long-running process
+    command: sleep infinity
+
+    # Optional: if you want to mount another local folder e.g. $HOME/data to /data in the container,
+    # uncomment the following lines and adjust the paths as needed.
+    #volumes:
+      # - ${HOME}/data:/data:cached
+    volumes:
+      - ..:/workspaces/workspace:cached

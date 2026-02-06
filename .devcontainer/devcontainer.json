@@ -1,0 +1,31 @@
+{
+  "name": "cpp-p2996 (compose)",
+  
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "dev",
+
+  "workspaceFolder": "/workspaces/workspace",
+
+  "remoteUser": "root",
+  "containerUser": "root",
+  "updateRemoteUserUID": true,
+
+  "remoteEnv": {
+    "CC": "clang",
+    "CXX": "clang++"
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cmake-tools",
+        "ms-vscode.cpptools"
+      ],
+      "settings": {
+        "cmake.useCMakePresets": "always",
+        "cmake.configureOnOpen": true
+      }
+    }
+  }
+}
+

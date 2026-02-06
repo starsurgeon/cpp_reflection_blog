@@ -1,0 +1,37 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": { "major": 3, "minor": 23, "patch": 0 },
+  "configurePresets": [
+    {
+      "name": "clang-p2996-debug",
+      "displayName": "Clang p2996 Debug",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/clang-p2996-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_C_COMPILER": "/opt/clang-p2996/bin/clang",
+        "CMAKE_CXX_COMPILER": "/opt/clang-p2996/bin/clang++",
+        "CMAKE_TOOLCHAIN_FILE": "/opt/clang-p2996/cmake/clang-p2996-libcxx.toolchain.cmake"
+      }
+    },
+    {
+      "name": "clang-p2996-release",
+      "displayName": "Clang p2996 Release",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/clang-p2996-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_C_COMPILER": "/opt/clang-p2996/bin/clang",
+        "CMAKE_CXX_COMPILER": "/opt/clang-p2996/bin/clang++",
+        "CMAKE_TOOLCHAIN_FILE": "/opt/clang-p2996/cmake/clang-p2996-libcxx.toolchain.cmake"
+      }
+    }
+  ],
+  "buildPresets": [
+    { "name": "build-debug", "configurePreset": "clang-p2996-debug" },
+    { "name": "build-release", "configurePreset": "clang-p2996-release" }
+  ],
+  "testPresets": [
+    { "name": "test-debug", "configurePreset": "clang-p2996-debug" }
+  ]
+}
