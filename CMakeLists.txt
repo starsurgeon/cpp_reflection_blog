@@ -38,4 +38,5 @@ endfunction()
 # their own CMakeLists.txt and then add_subdirectory(<name>).
 add_subdirectory(enumToString)
 add_subdirectory(jsonserializer)
+add_subdirectory(std_meta_part2)
 #add_subdirectory(test)
