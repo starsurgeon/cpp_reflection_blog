@@ -106,6 +106,27 @@ Notes:
 - If CMake Presets fail with "Invalid macro expansion": use only CMake Preset macros like `${sourceDir}` for `binaryDir` — do not use VS Code-specific macros like `${workspaceFolder}` or unsupported macros like `${buildType}` inside presets. Instead, create explicit presets for Debug/Release.
 - If clangd doesn't pick up the compile DB, either point `clangd.arguments` at the right directory or create a symlink at a location clangd checks.
 
+## CI quality pipeline
+
+Quality pipeline details, runner prerequisites, and branch protection setup are documented in [docs/ci-quality.md](docs/ci-quality.md).
+
+Required branch protection checks for `main`:
+
+- `preflight-tools`
+- `build-debug`
+- `test-debug`
+- `asan-tests`
+- `ubsan-tests`
+- `cppcheck`
+- `clang-format-check`
+- `coverage-70`
+
+Optional checks (recommended after toolchain readiness):
+
+- `iwyu-check`
+- `fuzztest-build`
+- `mutation-smoke`
+
 ---
 
 ## Project structure 📁

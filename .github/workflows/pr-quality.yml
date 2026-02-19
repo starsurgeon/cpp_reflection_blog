@@ -1,0 +1,145 @@
+name: pr-quality
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  preflight_tools:
+    name: preflight-tools
+    runs-on: [self-hosted, linux]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run preflight checks
+        run: bash scripts/ci/preflight_tools.sh --strict
+      - name: Upload preflight summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: preflight-summary
+          path: preflight-summary.md
+
+  build_debug:
+    name: build-debug
+    runs-on: [self-hosted, linux]
+    needs: preflight_tools
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure debug
+        run: cmake --preset clang-p2996-debug
+      - name: Build debug
+        run: cmake --build --preset build-debug -j
+
+  test_debug:
+    name: test-debug
+    runs-on: [self-hosted, linux]
+    needs: preflight_tools
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure debug
+        run: cmake --preset clang-p2996-debug
+      - name: Build debug
+        run: cmake --build --preset build-debug -j
+      - name: Run debug tests
+        run: ctest --preset test-debug
+
+  asan_tests:
+    name: asan-tests
+    runs-on: [self-hosted, linux]
+    needs: preflight_tools
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure ASan
+        run: cmake --preset clang-p2996-asan
+      - name: Build ASan
+        run: cmake --build --preset build-asan -j
+      - name: Run ASan tests
+        run: ctest --preset test-asan
+
+  ubsan_tests:
+    name: ubsan-tests
+    runs-on: [self-hosted, linux]
+    needs: preflight_tools
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure UBSan
+        run: cmake --preset clang-p2996-ubsan
+      - name: Build UBSan
+        run: cmake --build --preset build-ubsan -j
+      - name: Run UBSan tests
+        run: ctest --preset test-ubsan
+
+  cppcheck:
+    name: cppcheck
+    runs-on: [self-hosted, linux]
+    needs: preflight_tools
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run cppcheck
+        run: bash scripts/ci/cppcheck_run.sh
+
+  clang_format_check:
+    name: clang-format-check
+    runs-on: [self-hosted, linux]
+    needs: preflight_tools
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run clang-format check
+        run: bash scripts/ci/clang_format_check.sh
+
+  coverage_70:
+    name: coverage-70
+    runs-on: [self-hosted, linux]
+    needs: preflight_tools
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure coverage
+        run: cmake --preset clang-p2996-coverage
+      - name: Build coverage
+        run: cmake --build --preset build-coverage -j
+      - name: Run coverage tests
+        run: ctest --preset test-coverage
+      - name: Enforce coverage gate
+        run: python3 scripts/ci/coverage_gate.py --build-dir build/clang-p2996-coverage --filter jsonserializer --threshold 70
+      - name: Upload coverage summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-summary
+          path: coverage-summary.json
+
+  iwyu_check:
+    name: iwyu-check
+    runs-on: [self-hosted, linux]
+    needs: preflight_tools
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure IWYU
+        run: cmake --preset clang-p2996-iwyu
+      - name: Build IWYU
+        run: cmake --build --preset build-iwyu -j
+
+  fuzztest_build:
+    name: fuzztest-build
+    runs-on: [self-hosted, linux]
+    needs: preflight_tools
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure FuzzTest
+        run: cmake --preset clang-p2996-fuzztest
+      - name: Build FuzzTest
+        run: cmake --build --preset build-fuzztest -j
+
+  mutation_smoke:
+    name: mutation-smoke
+    runs-on: [self-hosted, linux]
+    needs: preflight_tools
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure mutation
+        run: cmake --preset clang-p2996-mutation
+      - name: Build mutation target
+        run: cmake --build --preset build-mutation --target mutation-smoke
+      - name: Run mutation smoke script
+        run: bash scripts/ci/mutation_smoke.sh

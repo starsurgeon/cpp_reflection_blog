@@ -1,6 +1,5 @@
 # Ignore build directories
 build/
-.github/
 
 # Editor / OS files
 .vscode/

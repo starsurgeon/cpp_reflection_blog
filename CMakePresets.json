@@ -11,7 +11,8 @@
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_C_COMPILER": "/opt/clang-p2996/bin/clang",
         "CMAKE_CXX_COMPILER": "/opt/clang-p2996/bin/clang++",
-        "CMAKE_TOOLCHAIN_FILE": "/opt/clang-p2996/cmake/clang-p2996-libcxx.toolchain.cmake"
+        "CMAKE_TOOLCHAIN_FILE": "/opt/clang-p2996/cmake/clang-p2996-libcxx.toolchain.cmake",
+        "CRB_WARNINGS_AS_ERRORS": "ON"
       }
     },
     {
@@ -25,13 +26,76 @@
         "CMAKE_CXX_COMPILER": "/opt/clang-p2996/bin/clang++",
         "CMAKE_TOOLCHAIN_FILE": "/opt/clang-p2996/cmake/clang-p2996-libcxx.toolchain.cmake"
       }
+    },
+    {
+      "name": "clang-p2996-asan",
+      "displayName": "Clang p2996 ASan",
+      "inherits": "clang-p2996-debug",
+      "binaryDir": "${sourceDir}/build/clang-p2996-asan",
+      "cacheVariables": {
+        "CRB_ENABLE_ASAN": "ON"
+      }
+    },
+    {
+      "name": "clang-p2996-ubsan",
+      "displayName": "Clang p2996 UBSan",
+      "inherits": "clang-p2996-debug",
+      "binaryDir": "${sourceDir}/build/clang-p2996-ubsan",
+      "cacheVariables": {
+        "CRB_ENABLE_UBSAN": "ON"
+      }
+    },
+    {
+      "name": "clang-p2996-coverage",
+      "displayName": "Clang p2996 Coverage",
+      "inherits": "clang-p2996-debug",
+      "binaryDir": "${sourceDir}/build/clang-p2996-coverage",
+      "cacheVariables": {
+        "CRB_ENABLE_COVERAGE": "ON"
+      }
+    },
+    {
+      "name": "clang-p2996-iwyu",
+      "displayName": "Clang p2996 IWYU",
+      "inherits": "clang-p2996-debug",
+      "binaryDir": "${sourceDir}/build/clang-p2996-iwyu",
+      "cacheVariables": {
+        "CRB_ENABLE_IWYU": "ON"
+      }
+    },
+    {
+      "name": "clang-p2996-fuzztest",
+      "displayName": "Clang p2996 FuzzTest",
+      "inherits": "clang-p2996-debug",
+      "binaryDir": "${sourceDir}/build/clang-p2996-fuzztest",
+      "cacheVariables": {
+        "CRB_ENABLE_FUZZTEST": "ON"
+      }
+    },
+    {
+      "name": "clang-p2996-mutation",
+      "displayName": "Clang p2996 Mutation",
+      "inherits": "clang-p2996-debug",
+      "binaryDir": "${sourceDir}/build/clang-p2996-mutation",
+      "cacheVariables": {
+        "CRB_ENABLE_MUTATION": "ON"
+      }
     }
   ],
   "buildPresets": [
     { "name": "build-debug", "configurePreset": "clang-p2996-debug" },
-    { "name": "build-release", "configurePreset": "clang-p2996-release" }
+    { "name": "build-release", "configurePreset": "clang-p2996-release" },
+    { "name": "build-asan", "configurePreset": "clang-p2996-asan" },
+    { "name": "build-ubsan", "configurePreset": "clang-p2996-ubsan" },
+    { "name": "build-coverage", "configurePreset": "clang-p2996-coverage" },
+    { "name": "build-iwyu", "configurePreset": "clang-p2996-iwyu" },
+    { "name": "build-fuzztest", "configurePreset": "clang-p2996-fuzztest" },
+    { "name": "build-mutation", "configurePreset": "clang-p2996-mutation" }
   ],
   "testPresets": [
-    { "name": "test-debug", "configurePreset": "clang-p2996-debug" }
+    { "name": "test-debug", "configurePreset": "clang-p2996-debug" },
+    { "name": "test-asan", "configurePreset": "clang-p2996-asan", "output": { "outputOnFailure": true } },
+    { "name": "test-ubsan", "configurePreset": "clang-p2996-ubsan", "output": { "outputOnFailure": true } },
+    { "name": "test-coverage", "configurePreset": "clang-p2996-coverage", "output": { "outputOnFailure": true } }
   ]
 }

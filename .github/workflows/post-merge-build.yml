@@ -1,0 +1,43 @@
+name: post-merge-build
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  preflight_tools:
+    name: preflight-tools
+    runs-on: [self-hosted, linux]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run preflight checks
+        run: bash scripts/ci/preflight_tools.sh --strict
+      - name: Upload preflight summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: preflight-summary-post-merge
+          path: preflight-summary.md
+
+  post_merge_build_debug:
+    name: post-merge-build-debug
+    runs-on: [self-hosted, linux]
+    needs: preflight_tools
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure debug
+        run: cmake --preset clang-p2996-debug
+      - name: Build debug
+        run: cmake --build --preset build-debug -j
+
+  post_merge_test_debug:
+    name: post-merge-test-debug
+    runs-on: [self-hosted, linux]
+    needs: post_merge_build_debug
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure debug
+        run: cmake --preset clang-p2996-debug
+      - name: Build debug
+        run: cmake --build --preset build-debug -j
+      - name: Run debug tests
+        run: ctest --preset test-debug
