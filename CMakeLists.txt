@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.20)
 project(cpp_reflection_blog LANGUAGES CXX)
 
+include(CTest)
+
 # Global C++ language standard for all example apps
 set(CMAKE_CXX_STANDARD 26)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
