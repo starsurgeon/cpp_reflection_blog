@@ -15,7 +15,7 @@
     "CXX": "clang++"
   },
 
-  "postCreateCommand": "apt-get update && apt-get install -y --no-install-recommends cppcheck gcovr include-what-you-use",
+  "postCreateCommand": "command -v gcovr >/dev/null && gcovr --version || true",
 
   "customizations": {
     "vscode": {

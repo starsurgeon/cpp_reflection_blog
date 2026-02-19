@@ -1,6 +1,9 @@
 services:
   dev:
-    image: ghcr.io/starsurgeon/cpp_reflection_blog/cpp_reflection_blog_clang-p2996:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ghcr.io/starsurgeon/cpp_reflection_blog/cpp_reflection_blog_clang-p2996:devcontainer
     init: true
 
     # Let Dev Containers own the workspace mount behavior.
