@@ -6,6 +6,9 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends \
       cppcheck \
       gcovr \
+      pybind11-dev \
+      python3-dev \
+      python3-pip \
  && (apt-get install -y --no-install-recommends include-what-you-use \
       || apt-get install -y --no-install-recommends iwyu) \
  && rm -rf /var/lib/apt/lists/*

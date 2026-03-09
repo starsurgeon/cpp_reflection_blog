@@ -1,6 +1,9 @@
 # Ignore build directories
 build/
 
+# build artifacts
+*.so
+
 # Editor / OS files
 .vscode/
 .DS_Store

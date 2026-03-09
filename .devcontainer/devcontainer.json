@@ -15,7 +15,7 @@
     "CXX": "clang++"
   },
 
-  "postCreateCommand": "command -v gcovr >/dev/null && gcovr --version || true",
+  "postCreateCommand": "command -v gcovr >/dev/null && gcovr --version || true; dpkg -s pybind11-dev >/dev/null && echo 'pybind11-dev installed' || true",
 
   "customizations": {
     "vscode": {
